@@ -1,0 +1,75 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace Drugi_program_grupa_B
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        public static int PoliczParzyste(params int[] liczby)
+        {
+            if (liczby.Length < 3)
+            {
+                throw new ArgumentException("Metoda wymaga co najmniej 3 parametrów");
+            }
+
+            int licznikParzystych = 0;
+            foreach (var liczba in liczby)
+            {
+                if (liczba % 2 == 0)
+                {
+                    licznikParzystych++;
+                }
+            }
+
+            return licznikParzystych;
+        }
+
+        private void btnPoprawne_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Przypadek testowy z wystarczającą liczbą argumentów
+                int wynik = PoliczParzyste(2, 4, 6, 7, 9);
+                lblWynik.Content = $"Liczba parzystych: {wynik}";
+            }
+            catch (ArgumentException ex)
+            {
+                lblWynik.Content = ex.Message;
+            }
+        }
+
+        private void btnWyjątek_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                // Przypadek testowy z niewystarczającą liczbą argumentów
+                int wynik = PoliczParzyste(1, 2); // To spowoduje wyjątek
+                lblWynik.Content = $"Liczba parzystych: {wynik}";
+            }
+            catch (ArgumentException ex)
+            {
+                lblWynik.Content = ex.Message;
+            }
+        }
+    }
+}
