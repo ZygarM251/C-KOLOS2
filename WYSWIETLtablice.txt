@@ -1,0 +1,37 @@
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace Zadanie1
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+
+        private void btnWyświetl_Click(object sender, RoutedEventArgs e)
+        {
+            int[,] tablica = new int[4, 5];
+            int licznik = 1;
+            for (int i = 0; i < 4; i++)
+            {
+                for (int j = 0; j < 5; j++)
+                {
+                    tablica[i, j] = licznik++;
+                }
+            }
+            for (int i = 0; i < 4; i++)
+            {
+                lstLista.Items.Add(tablica[i, 1]); 
+            }
+        }
+    }
+}
