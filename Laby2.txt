@@ -1,0 +1,167 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Data;
+using System.Windows.Documents;
+using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
+using System.Windows.Shapes;
+
+namespace Lab2
+{
+    /// <summary>
+    /// Interaction logic for MainWindow.xaml
+    /// </summary>
+    public partial class MainWindow : Window
+    {
+        public MainWindow()
+        {
+            InitializeComponent();
+        }
+        //Zadanie A
+        public double iloczyn(double a,double b) 
+        {
+            return a * b;
+        }
+
+        public double kwadrat(double a)
+        {
+            return iloczyn(a,a);
+        }
+
+        public double PoleKoła(double promień) 
+        {
+            return kwadrat(promień) * Math.PI;
+        }
+
+        public double ObjetośćWalca(double wysokość) 
+        {
+            return iloczyn(PoleKoła(wysokość / 2.0),2);
+        }
+
+        private void btnLicz_Click(object sender, RoutedEventArgs e)
+        {
+            test1.Items.Add(iloczyn(4, 5));
+            test1.Items.Add(kwadrat(3));
+            test1.Items.Add(PoleKoła(6));
+            test1.Items.Add(ObjetośćWalca(23));
+
+        }
+
+        //Zadanie B
+        //...
+
+        //Zadanie C
+        public double Prostokąt(double szerokość, double wysokość, out double obwód,out double przekątna) 
+        {
+            double pole = szerokość * wysokość;
+            obwód = 2 * szerokość + 2 * wysokość;
+            przekątna = Math.Sqrt(szerokość * szerokość + wysokość * wysokość);
+            return pole;
+        
+        }
+
+        private void btnWynikProstokat_Click(object sender, RoutedEventArgs e)
+        {
+            double obwód, przekątna, pole = Prostokąt(Convert.ToDouble(txtSzerokosc.Text), Convert.ToDouble(txtWysokość.Text), out obwód, out przekątna);
+            MessageBox.Show($"Pole wynosi: {pole}, Obwód prostokąta wynosi: {obwód}, Przekątna wynosi: {przekątna}");
+        }
+
+
+        //Zadanie D
+        private void btnTrzepak_Click(object sender, RoutedEventArgs e)
+        {
+            cvTrzepak.Children.Clear(); 
+
+           
+            double[,] wspolrzedne = new double[4,4]{{100, 20, 100, 120}, {200, 20, 200, 120}, {80, 20, 220, 20},{100, 70, 200, 70},};
+
+            
+            Color[] kolory = new Color[]{Colors.Green, Colors.Green, Colors.Red, Colors.Black };
+
+            
+            for (int i = 0; i < wspolrzedne.GetLength(0); i++)
+            {
+                RysujLinie(cvTrzepak, wspolrzedne[i, 0], wspolrzedne[i, 1], wspolrzedne[i, 2], wspolrzedne[i, 3], kolory[i], 4);
+            }
+        }
+        private void RysujLinie(Canvas canvas, double x1, double y1, double x2, double y2, Color color, double thickness)
+        {
+            Line line = new Line
+            {
+                X1 = x1,
+                Y1 = y1,
+                X2 = x2,
+                Y2 = y2,
+                Stroke = new SolidColorBrush(color),
+                StrokeThickness = thickness
+            };
+
+            canvas.Children.Add(line);
+        }
+
+
+        //Zadanie E
+
+        private void btnObliczListe_Click(object sender, RoutedEventArgs e)
+        {
+            RodzajOperacji operacja;
+            if (radioSuma.IsChecked == true)
+            {
+                operacja = RodzajOperacji.Sum;
+            }
+            else if (radioMin.IsChecked == true)
+            {
+                operacja = RodzajOperacji.Min;
+            }
+            else
+            {
+                operacja = RodzajOperacji.Max;
+            }
+
+
+            int[] liczby = { 1, 2, 3, 4, 5 };
+
+
+            int wynik = ObliczIWyswietl(operacja, liczby);
+            MessageBox.Show($"Wynik operacji {operacja}: {wynik}");
+        }
+        
+        public enum RodzajOperacji
+        {
+            Sum,
+            Min,
+            Max
+        }
+        public int ObliczIWyswietl(RodzajOperacji operacja, params int[] liczby)
+        {
+            lstLista.Items.Clear();
+
+            foreach (var liczba in liczby)
+            {
+                lstLista.Items.Add(liczba);
+            }
+
+
+            switch (operacja)
+            {
+                case RodzajOperacji.Sum:
+                    return liczby.Sum();
+                case RodzajOperacji.Min:
+                    return liczby.Min();
+                case RodzajOperacji.Max:
+                    return liczby.Max();
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(operacja), "Co to za Operacja");
+            }
+        }
+
+        
+    }
+}
